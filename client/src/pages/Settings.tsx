@@ -1,0 +1,16 @@
+import DashboardLayout from "@/components/DashboardLayout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { trpc } from "@/lib/trpc";
+import { CheckCircle2, KeyRound, Save, Webhook } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+export default function Settings() {
+  const current = trpc.config.slack.useQuery(undefined, { staleTime: 30000 });
+  const [webhookUrl, setWebhookUrl] = useState("");
+  const save = trpc.config.setSlackWebhook.useMutation({ onSuccess: result => { toast.success(result.configured ? "Slack webhook saved" : "Slack notifications disabled"); current.refetch(); setWebhookUrl(""); } });
+  useEffect(() => { if (current.data?.masked) setWebhookUrl(""); }, [current.data?.masked]);
+  return <DashboardLayout><div className="min-h-[calc(100vh-2rem)] bg-[#090d14] text-slate-100 -m-4 p-5 md:p-7"><div className="mx-auto max-w-[980px] space-y-6"><header className="border-b border-white/8 pb-6"><div className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80"><KeyRound className="h-3.5 w-3.5" /> Integrations</div><h1 className="text-3xl font-semibold tracking-tight text-white">Settings</h1><p className="mt-2 text-sm text-slate-400">Configure outbound incident notifications and operational integrations.</p></header><Card className="border-white/8 bg-[#101722]"><CardHeader><div className="flex items-center gap-3"><div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-300"><Webhook className="h-4 w-4" /></div><div><CardTitle className="text-base text-white">Slack incident notifications</CardTitle><p className="mt-1 text-xs text-slate-500">Send a message when an incident is created or severity escalates.</p></div></div></CardHeader><CardContent className="space-y-5"><div className="rounded-lg border border-white/7 bg-white/[.02] p-4 text-sm text-slate-400"><div className="flex items-center gap-2 text-emerald-300"><CheckCircle2 className="h-4 w-4" /> {current.data?.configured ? `Configured: ${current.data.masked}` : "Not configured"}</div><p className="mt-2 text-xs leading-relaxed text-slate-600">The webhook is stored server-side and is never returned in full to the browser.</p></div><div><label className="mb-2 block text-xs font-medium text-slate-400" htmlFor="slack-webhook">Incoming Webhook URL</label><Input id="slack-webhook" value={webhookUrl} onChange={event => setWebhookUrl(event.target.value)} placeholder="https://hooks.slack.com/services/..." className="border-white/10 bg-[#0b111b] text-slate-200 placeholder:text-slate-700" type="url" /></div><div className="flex flex-wrap gap-2"><Button onClick={() => save.mutate({ webhookUrl })} disabled={!webhookUrl || save.isPending} className="bg-cyan-400 text-slate-950 hover:bg-cyan-300"><Save className="mr-2 h-4 w-4" /> {save.isPending ? "Saving…" : "Save webhook"}</Button><Button variant="outline" onClick={() => save.mutate({ webhookUrl: "" })} disabled={save.isPending || !current.data?.configured} className="border-white/10 bg-transparent text-slate-300 hover:bg-white/5">Disable notifications</Button></div></CardContent></Card></div></div></DashboardLayout>;
+}
