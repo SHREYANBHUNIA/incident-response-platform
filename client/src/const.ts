@@ -15,6 +15,20 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 export const startLogin = () => {
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;
   const appId = import.meta.env.VITE_APP_ID;
+
+  // The OAuth portal config comes from Manus-provided env vars. When they are
+  // missing (e.g. running outside the Manus platform), bail out with a clear
+  // message instead of letting `new URL(...)` throw an opaque "Invalid URL".
+  if (!oauthPortalUrl || !appId) {
+    console.warn(
+      "[v0] OAuth login is not configured: set VITE_OAUTH_PORTAL_URL and VITE_APP_ID to enable sign-in.",
+    );
+    alert(
+      "Sign-in is not configured in this environment. Set VITE_OAUTH_PORTAL_URL and VITE_APP_ID to enable login.",
+    );
+    return;
+  }
+
   const redirectUri = `${window.location.origin}/api/oauth/callback`;
 
   const nonce = crypto.randomUUID();
