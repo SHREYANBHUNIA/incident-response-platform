@@ -2837,3 +2837,9 @@
 - [ ] Add or update a regression test for the corrected markup
 - [ ] Run typecheck, tests, build, and visual verification for the DOM nesting fix
 - [ ] Save a bug-fix checkpoint and report the resolution
+
+## GitHub handoff
+- [ ] Prepare the verified project for GitHub export
+- [ ] Create the new private incident-response-platform repository
+- [ ] Push the project to GitHub and verify the remote
+- [ ] Report the repository URL and deployment handoff
