@@ -2831,3 +2831,9 @@
 - [x] Save a final checkpoint and deliver only after all remaining gaps are verified
 
 # End final verification follow-up
+
+## Bug fixes
+- [ ] Fix invalid `<p>` nesting that wraps a block-level element on the operations page
+- [ ] Add or update a regression test for the corrected markup
+- [ ] Run typecheck, tests, build, and visual verification for the DOM nesting fix
+- [ ] Save a bug-fix checkpoint and report the resolution
