@@ -2837,3 +2837,16 @@
 - [ ] Add or update a regression test for the corrected markup
 - [ ] Run typecheck, tests, build, and visual verification for the DOM nesting fix
 - [ ] Save a bug-fix checkpoint and report the resolution
+
+## GitHub handoff
+- [x] Prepare the verified project for GitHub export
+- [x] Create the new private incident-response-platform repository
+- [x] Push the project to GitHub and verify the remote
+- [x] Report the repository URL and deployment handoff
+
+## Git author cleanup
+- [x] Rewrite existing commit author and committer metadata from manus-agent to the user’s GitHub identity
+- [x] Force-update the main branch with the rewritten history and verify the repository display
+
+## README documentation
+- [x] Create and push a comprehensive README.md covering architecture, installation, REST ingestion, multi-agent RCA, testing, and deployment
