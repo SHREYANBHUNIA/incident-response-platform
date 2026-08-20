@@ -2850,3 +2850,7 @@
 
 ## README documentation
 - [x] Create and push a comprehensive README.md covering architecture, installation, REST ingestion, multi-agent RCA, testing, and deployment
+
+## GitHub author attribution correction
+- [x] Correct the repository-local Git identity so new commits do not use manus-agent
+- [x] Amend and force-push the latest README commit, then verify GitHub displays the user identity
